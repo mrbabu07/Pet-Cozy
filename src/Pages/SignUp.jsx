@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { auth } from "../Firebase/Firebase.config";
@@ -7,9 +7,14 @@ import { IoEyeOff } from "react-icons/io5";
 
 const SignUp = () => {
 const [show, setShow] = useState(false);
+const [user, setUser] = useState(null);
+
+const googleProvider =new GoogleAuthProvider();
 
 
   const handleSignUp = (e) => {
+
+    
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
@@ -25,6 +30,8 @@ const [show, setShow] = useState(false);
         return;
     }
 
+    
+
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((res) => {
@@ -36,6 +43,18 @@ const [show, setShow] = useState(false);
         toast.error("Error signing up: " + error.message);
       });
   };
+  const handleGoogleSignIn = () => {
+        signInWithPopup(auth, googleProvider)
+        .then((res) => {
+            console.log("User signed in:", res.user);
+            setUser(res.user);
+            toast.success("User signed in successfully");
+          })
+          .catch((error) => {
+            console.error("Error signing in:", error);
+            toast.error("Error signing in: " + error.message);
+          });
+      };
 
   return (
     <div className="max-w-md mx-auto p-6 bg-gray-900 text-white shadow-2xl rounded-2xl mt-10 border border-gray-700">
@@ -70,7 +89,7 @@ const [show, setShow] = useState(false);
         </button>
       </form>
       <div className="mt-4 text-center">
-        <button className="w-full py-2 border border-gray-600 rounded-md hover:bg-gray-800">
+        <button onClick={handleGoogleSignIn} className="w-full py-2 border border-gray-600 rounded-md hover:bg-gray-800 cursor-pointer">
           Sign up with Google
         </button>
       </div>
