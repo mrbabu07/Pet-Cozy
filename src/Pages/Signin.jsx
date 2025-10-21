@@ -1,4 +1,4 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import React, { useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { IoEyeOff } from "react-icons/io5";
@@ -6,10 +6,31 @@ import { NavLink } from "react-router";
 import { toast } from "react-toastify";
 import { auth } from "../Firebase/Firebase.config";
 
+const googleProvider =new GoogleAuthProvider();
+
 const Signin = () => {
   const handleSignout = () => {
-    setUser(null);
-    toast.success("User signed out successfully");
+    signOut(auth)
+      .then(() => {
+        toast.success("User signed out successfully");
+        setUser(null);
+      })
+      .catch((error) => {
+        toast.error("Error signing out: " + error.message);
+      });
+  };
+
+  const handleGoogleSignIn = () => {
+    signInWithPopup(auth, googleProvider)
+    .then((res) => {
+        console.log("User signed in:", res.user);
+        setUser(res.user);
+        toast.success("User signed in successfully");
+      })
+      .catch((error) => {
+        console.error("Error signing in:", error);
+        toast.error("Error signing in: " + error.message);
+      });
   };
 
   const [user, setUser] = useState(null);
@@ -39,12 +60,24 @@ const Signin = () => {
       <h2 className="text-3xl font-bold mb-4 text-center">Sign In</h2>
       {user ? (
         <div className="text-center">
-          <h3 className="text-xl mb-4 text-shadow-white">
-            {user.email}! <br />{" "}
+          <h3 className="text-xl mb-4">
+            {user.email} <br />
           </h3>
           <h3 className="text-xl mb-4">
-            {user.displayName} <br />{" "}
+            {user.displayName ? user.displayName : "No Name Available"} <br />
           </h3>
+
+          {/* User Photo Section */}
+          <div className="text-center space-y-3 mb-4">
+            <img
+              src={
+                user?.photoURL ||
+                "https://www.pngarts.com/files/6/User-Avatar-in-Suit-PNG.png"
+              }
+              alt="User"
+              className="w-24 h-24 rounded-full mx-auto border border-gray-600"
+            />
+          </div>
 
           <button
             onClick={handleSignout}
@@ -86,7 +119,7 @@ const Signin = () => {
         </form>
       )}
       <div className="mt-4 text-center">
-        <button className="w-full py-2 border border-gray-600 rounded-md hover:bg-gray-800">
+        <button onClick={handleGoogleSignIn} className="w-full py-2 border border-gray-600 rounded-md hover:bg-gray-800 cursor-pointer">
           Sign in with Google
         </button>
       </div>
