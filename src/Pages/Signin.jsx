@@ -1,14 +1,23 @@
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import React, { useState } from "react";
+import {
+  GoogleAuthProvider,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
+import React, { useRef, useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { IoEyeOff } from "react-icons/io5";
 import { NavLink } from "react-router";
 import { toast } from "react-toastify";
 import { auth } from "../Firebase/Firebase.config";
 
-const googleProvider =new GoogleAuthProvider();
+const googleProvider = new GoogleAuthProvider();
+
+
 
 const Signin = () => {
+  const emailRef = useRef(null);
   const handleSignout = () => {
     signOut(auth)
       .then(() => {
@@ -20,9 +29,21 @@ const Signin = () => {
       });
   };
 
+  const handleForgetPassword = (e) => {
+    // console.log(e.target.email.value);
+    const email = emailRef.current.value;
+    sendPasswordResetEmail(auth, email)
+    .then(() => {
+      toast.success("Check your email to reset your password");
+    })
+    .catch((error) => {
+      toast.error("Error sending password reset email: " + error.message);
+    });
+  };
+
   const handleGoogleSignIn = () => {
     signInWithPopup(auth, googleProvider)
-    .then((res) => {
+      .then((res) => {
         console.log("User signed in:", res.user);
         setUser(res.user);
         toast.success("User signed in successfully");
@@ -93,6 +114,7 @@ const Signin = () => {
             <input
               type="email"
               name="email"
+              ref ={emailRef}
               className="w-full border p-2 rounded bg-gray-800 text-white"
               placeholder="Enter your email"
             />
@@ -107,6 +129,13 @@ const Signin = () => {
             />
           </div>
           <button
+            className="hover:underline cursor-pointer py-2"
+            onClick={handleForgetPassword}
+            type="button"
+          >
+            Forget Password?
+          </button>
+          <button
             onClick={() => setShow(!show)}
             type="submit"
             className="w-full py-2 bg-yellow-500 text-black font-semibold rounded-md hover:bg-yellow-400 cursor-pointer"
@@ -119,7 +148,10 @@ const Signin = () => {
         </form>
       )}
       <div className="mt-4 text-center">
-        <button onClick={handleGoogleSignIn} className="w-full py-2 border border-gray-600 rounded-md hover:bg-gray-800 cursor-pointer">
+        <button
+          onClick={handleGoogleSignIn}
+          className="w-full py-2 border border-gray-600 rounded-md hover:bg-gray-800 cursor-pointer"
+        >
           Sign in with Google
         </button>
       </div>
