@@ -1,6 +1,6 @@
 // src/Pages/ServiceDetails.jsx
 import React, { useState, useContext } from "react";
-import { useParams, Navigate } from "react-router-dom";
+import { useParams, Navigate } from "react-router";
 import AuthContext from "../Context/AuthContext";
 import winterServices from "../data/winterServices.json";
 import { toast } from "react-toastify";
@@ -35,6 +35,9 @@ const ServiceDetails = () => {
       </button>
 
       {/* Service Card */}
+      <div className="text-center font-bold text-2xl my-2 text-white">
+        <h1>{service.serviceName} Details</h1>
+      </div>
       <div className="bg-gray-800 rounded-2xl p-6 border border-gray-700 shadow-lg">
         <img
           src={service.image}
@@ -58,7 +61,7 @@ const ServiceDetails = () => {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Your Name"
+            placeholder="Enter Your Name"
             className="w-full p-2 rounded bg-gray-700 text-white focus:outline-yellow-400"
             required
           />
@@ -72,7 +75,7 @@ const ServiceDetails = () => {
           />
           <button
             type="submit"
-            className="w-full py-2 bg-green-600 text-white rounded hover:bg-green-500 transition"
+            className="w-full py-2 bg-blue-600 text-white  hover:bg-blue-500 rounded-2xl transition-shadow"
           >
             Book Now
           </button>

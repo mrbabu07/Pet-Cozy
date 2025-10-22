@@ -74,7 +74,7 @@ const Homepage = () => {
                     e.target.src = 'https://via.placeholder.com/1200x400?text=Pet+Care';
                   }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-center justify-center">
+                <div className="absolute inset-0 bg-gradient-to from-black/60 to-transparent flex items-center justify-center">
                   <h1 className="text-white text-4xl md:text-5xl font-bold text-center px-4 drop-shadow-lg">
                     Keep Your Pets Cozy This Winter
                   </h1>
@@ -115,13 +115,16 @@ const Homepage = () => {
                   <h3 className="text-xl font-semibold text-white">
                     {service.serviceName}
                   </h3>
+                  
+                </div>
+                <div className="flex items-center mt-2 justify-between">
                   <span className="bg-yellow-500 text-gray-900 px-2 py-1 rounded text-sm font-bold">
                     ${service.price}
                   </span>
-                </div>
-                <div className="flex items-center mt-2">
+                  <div>
                   <span className="text-yellow-400">★</span>
                   <span className="text-gray-300 ml-1">{service.rating}</span>
+                  </div>
                 </div>
                 <Link
                   to={`/service/${service.serviceId}`}
@@ -140,10 +143,10 @@ const Homepage = () => {
         <h2 className="text-2xl font-bold text-white mb-4">
           Winter Care Tips for Pets
         </h2>
-        <ul className="space-y-2">
+        <ul className="space-y-2 ">
           {tips.map((tip, i) => (
             <li key={i} className="flex items-start">
-              <span className="text-yellow-400 mr-2">•</span>
+              <span className="text-yellow-400 mr-2">#</span>
               <span className="text-gray-300">{tip}</span>
             </li>
           ))}

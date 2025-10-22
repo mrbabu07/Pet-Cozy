@@ -1,18 +1,18 @@
 // src/Pages/AllServices.jsx
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import winterServices from "../data/winterServices.json";
 
 const AllServices = () => {
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10 text-gray-900">
+    <div className="max-w-6xl mx-auto px-4 py-10 text-white">
       <h2 className="text-4xl font-bold text-center mb-8">All Winter Services</h2>
 
       <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
         {winterServices.map((service) => (
           <div
             key={service.serviceId}
-            className="bg-white border rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300"
+            className="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 hover:transform hover:scale-105"
           >
             {/* Service Image */}
             <img
@@ -24,7 +24,7 @@ const AllServices = () => {
             {/* Details */}
             <div className="p-5">
               <h3 className="text-xl font-semibold mb-2">{service.name}</h3>
-              <p className="text-sm text-gray-600 mb-3">{service.description}</p>
+              <p className="text-sm text-yellow-700 mb-3">{service.description}</p>
               <p className="font-bold mb-4">Price: ${service.price}</p>
 
               {/* View Details Button */}
