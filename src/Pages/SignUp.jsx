@@ -1,99 +1,101 @@
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+// src/Pages/SignUp.jsx
 import React, { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { auth } from "../Firebase/Firebase.config";
 import { FaEye } from "react-icons/fa";
 import { IoEyeOff } from "react-icons/io5";
 
 const SignUp = () => {
-const [show, setShow] = useState(false);
-const [user, setUser] = useState(null);
-
-const googleProvider =new GoogleAuthProvider();
-
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const googleProvider = new GoogleAuthProvider();
 
   const handleSignUp = (e) => {
-
-    
     e.preventDefault();
+    const name = e.target.name.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
-    console.log("Sign Up submitted", { email, password });
+    const photoUrl = e.target.photoUrl.value;
 
-    if(password.length < 6){
-        toast.error("Password must be at least 6 characters long");
-        return;
-    }
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
-    if(!passwordRegex.test(password)){
-        toast.error("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character");
-        return;
-    }
-
-    
-
+    if (password.length < 6) return toast.error("Password must be at least 6 characters long");
+    if (!/[A-Z]/.test(password)) return toast.error("Include at least one uppercase letter");
+    if (!/[a-z]/.test(password)) return toast.error("Include at least one lowercase letter");
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((res) => {
-        console.log("User signed up:", res.user);
-        toast.success("User signed up successfully");
+        const user = res.user;
+        return updateProfile(user, {
+          displayName: name || null,
+          photoURL: photoUrl || null,
+        });
       })
-      .catch((error) => {
-        console.error("Error signing up:", error);
-        toast.error("Error signing up: " + error.message);
-      });
+      .then(() => {
+        toast.success("Account created successfully!");
+        navigate("/");
+      })
+      .catch((err) => toast.error(err.message));
   };
+
   const handleGoogleSignIn = () => {
-        signInWithPopup(auth, googleProvider)
-        .then((res) => {
-            console.log("User signed in:", res.user);
-            setUser(res.user);
-            toast.success("User signed in successfully");
-          })
-          .catch((error) => {
-            console.error("Error signing in:", error);
-            toast.error("Error signing in: " + error.message);
-          });
-      };
+    signInWithPopup(auth, googleProvider)
+      .then(() => {
+        toast.success("Signed in with Google");
+        navigate("/");
+      })
+      .catch((err) => toast.error(err.message));
+  };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-gray-900 text-white shadow-2xl rounded-2xl mt-10 border border-gray-700">
-      <h2 className="text-3xl font-bold mb-4 text-center">Sign Up</h2>
-      <form onSubmit={handleSignUp}>
-        <div className="mb-4">
-          <label className="block text-gray-300">Email</label>
-          <input
-            type="email"
-            name="email"
-            className="w-full border p-2 rounded bg-gray-800 text-white"
-            placeholder="Enter your email"
-          />
+    <div className="max-w-md mx-auto mt-10 p-6 bg-gray-900 text-white rounded-2xl shadow-xl border border-gray-700">
+      <h2 className="text-3xl font-bold text-center mb-6">Create Account</h2>
+
+      <form onSubmit={handleSignUp} className="space-y-4">
+        <div>
+          <label className="block text-gray-300 mb-1">Name</label>
+          <input name="name" placeholder="Your Name" required className="w-full p-2 bg-gray-800 border border-gray-600 rounded" />
         </div>
-        <div className="mb-4 relative">
-          <label className="block text-gray-300">Password</label>
+
+        <div>
+          <label className="block text-gray-300 mb-1">Email</label>
+          <input name="email" type="email" placeholder="your@email.com" required className="w-full p-2 bg-gray-800 border border-gray-600 rounded" />
+        </div>
+
+        <div>
+          <label className="block text-gray-300 mb-1">Photo URL</label>
+          <input name="photoUrl" type="url" placeholder="https://your-photo.com" className="w-full p-2 bg-gray-800 border border-gray-600 rounded" />
+        </div>
+
+        <div className="relative">
+          <label className="block text-gray-300 mb-1">Password</label>
           <input
-            type={show ? "text" : "password"}
             name="password"
-            className="w-full border p-2 rounded bg-gray-800 text-white"
-            placeholder="Enter your password"
+            type={showPassword ? "text" : "password"}
+            placeholder="Enter password"
+            required
+            className="w-full p-2 bg-gray-800 border border-gray-600 rounded"
           />
-          <span onClick={() => setShow(!show)} className="absolute right-[8px] top-[36px] cursor-pointer">
-            {show ? <FaEye /> : <IoEyeOff />}
+          <span
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-[42px] cursor-pointer text-gray-400"
+          >
+            {showPassword ? <FaEye /> : <IoEyeOff />}
           </span>
         </div>
-        <button
-          type="submit"
-          className="w-full py-2 bg-green-500 text-black font-semibold rounded-md hover:bg-green-400 cursor-pointer"
-        >
+
+        <button type="submit" className="w-full py-2 bg-green-500 text-black rounded font-semibold hover:bg-green-400 transition">
           Sign Up
         </button>
       </form>
-      <div className="mt-4 text-center">
-        <button onClick={handleGoogleSignIn} className="w-full py-2 border border-gray-600 rounded-md hover:bg-gray-800 cursor-pointer">
-          Sign up with Google
-        </button>
-      </div>
-      {/* <ToastContainer /> */}
+
+      <button onClick={handleGoogleSignIn} className="w-full py-2 mt-4 border border-gray-600 rounded hover:bg-gray-800 transition">
+        Continue with Google
+      </button>
+
+      <p className="text-center mt-4 text-gray-400">
+        Already have an account? <a href="/signin" className="text-yellow-400 hover:underline">Login</a>
+      </p>
     </div>
   );
 };

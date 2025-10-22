@@ -1,3 +1,4 @@
+// src/Pages/Signin.jsx
 import {
   GoogleAuthProvider,
   sendPasswordResetEmail,
@@ -5,124 +6,142 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { IoEyeOff } from "react-icons/io5";
-import { NavLink } from "react-router";
 import { toast } from "react-toastify";
 import { auth } from "../Firebase/Firebase.config";
 
 const googleProvider = new GoogleAuthProvider();
 
 const Signin = () => {
+  const navigate = useNavigate();
   const emailRef = useRef(null);
-  const [user, setUser] = useState(null);
-  const [show, setShow] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleForgetPassword = () => {
-    const email = emailRef.current.value;
-    if (!email) {
-      toast.error("Please enter your email address first");
-      return;
-    }
-    sendPasswordResetEmail(auth, email)
-      .then(() => {
-        toast.success("Check your email to reset your password");
-      })
-      .catch((error) => {
-        toast.error("Error sending password reset email: " + error.message);
-      });
-  };
-
-  const handleGoogleSignIn = () => {
-    signInWithPopup(auth, googleProvider)
-      .then((res) => {
-        console.log("User signed in:", res.user);
-        setUser(res.user);
-        toast.success("User signed in successfully");
-      })
-      .catch((error) => {
-        console.error("Error signing in:", error);
-        toast.error("Error signing in: " + error.message);
-      });
-  };
-
+  // 🔹 Handle Email + Password Sign In
   const handleSignIn = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    console.log("Sign In submitted", { email, password });
+
+    if (!email || !password) {
+      toast.error("Please enter both email and password.");
+      return;
+    }
+
     signInWithEmailAndPassword(auth, email, password)
-      .then((res) => {
-        console.log("User signed in:", res.user);
-        setUser(res.user);
-        toast.success("User signed in successfully");
+      .then(() => {
+        toast.success("Welcome back! You're now signed in.");
+        navigate("/");
       })
       .catch((error) => {
-        console.error("Error signing in:", error);
-        toast.error("Error signing in: " + error.message);
+        toast.error(error.message.includes("wrong-password") 
+          ? "Incorrect password. Please try again." 
+          : "Could not sign you in. Please check your credentials.");
       });
   };
 
-  console.log("Current user:", user);
-  
+  // 🔹 Handle Password Reset
+  const handleForgetPassword = () => {
+    const email = emailRef.current?.value;
+
+    if (!email) {
+      toast.error("Please enter your email above first.");
+      return;
+    }
+
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        toast.success("Password reset link has been sent to your email.");
+      })
+      .catch((error) => {
+        toast.error("Couldn't send reset email. Please try again.");
+      });
+  };
+
+  // 🔹 Handle Google Sign-In
+  const handleGoogleSignIn = () => {
+    signInWithPopup(auth, googleProvider)
+      .then(() => {
+        toast.success("Google sign-in successful! Redirecting...");
+        navigate("/");
+      })
+      .catch(() => {
+        toast.error("Google sign-in failed. Please try again.");
+      });
+  };
+
   return (
     <div className="max-w-md mx-auto p-6 bg-gray-900 text-white shadow-2xl rounded-2xl mt-10 border border-gray-700">
       <h2 className="text-3xl font-bold mb-4 text-center">Sign In</h2>
-      
+
       <form onSubmit={handleSignIn}>
+        {/* Email Input */}
         <div className="mb-4">
-          <label className="block text-gray-300">Email</label>
+          <label className="block text-gray-300 mb-1">Email</label>
           <input
             type="email"
             name="email"
             ref={emailRef}
             className="w-full border p-2 rounded bg-gray-800 text-white"
             placeholder="Enter your email"
+            required
           />
         </div>
+
+        {/* Password Input */}
         <div className="mb-4 relative">
-          <label className="block text-gray-300">Password</label>
+          <label className="block text-gray-300 mb-1">Password</label>
           <input
-            type={show ? "text" : "password"}
+            type={showPassword ? "text" : "password"}
             name="password"
             className="w-full border p-2 rounded bg-gray-800 text-white"
             placeholder="Enter your password"
+            required
           />
           <span
-            onClick={() => setShow(!show)}
-            className="absolute right-[8px] top-[36px] cursor-pointer"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-2 top-[42px] cursor-pointer text-gray-400"
           >
-            {show ? <FaEye /> : <IoEyeOff />}
+            {showPassword ? <FaEye /> : <IoEyeOff />}
           </span>
         </div>
+
+        {/* Forget Password Button */}
         <button
-          className="hover:underline cursor-pointer py-2 text-left"
-          onClick={handleForgetPassword}
           type="button"
+          onClick={handleForgetPassword}
+          className="text-sm text-yellow-400 hover:underline mb-4"
         >
-          Forget Password?
+          Forgot Password?
         </button>
+
+        {/* Main Sign In Button */}
         <button
           type="submit"
-          className="w-full py-2 bg-yellow-500 text-black font-semibold rounded-md hover:bg-yellow-400 cursor-pointer"
+          className="w-full py-2 bg-yellow-500 text-black font-semibold rounded-md hover:bg-yellow-400"
         >
           Sign In
         </button>
       </form>
 
+      {/* Google Sign In */}
       <div className="mt-4 text-center">
         <button
           onClick={handleGoogleSignIn}
-          className="w-full py-2 border border-gray-600 rounded-md hover:bg-gray-800 cursor-pointer"
+          className="w-full py-2 border border-gray-600 rounded-md hover:bg-gray-800"
         >
-          Sign in with Google
+          Continue with Google
         </button>
       </div>
-      <div className="mt-4 text-center">
-        <span>Don't have an account? </span>
-        <NavLink to="/signup" className="text-yellow-400 hover:underline">
-          Register
-        </NavLink>
+
+      {/* Redirect to Sign Up */}
+      <div className="mt-4 text-center text-gray-400">
+        Don’t have an account?{" "}
+        <a href="/signup" className="text-yellow-400 hover:underline">
+          Create one
+        </a>
       </div>
     </div>
   );

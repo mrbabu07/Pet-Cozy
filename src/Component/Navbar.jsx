@@ -1,103 +1,95 @@
+// src/components/Navbar.jsx
 import React, { useContext } from "react";
-import { Gem, UserCircle } from "lucide-react";
-import { Link, NavLink } from "react-router";
-import MyLink from "./MyLink";
-import { AuthContext } from "../Context/AuthContext";
+import { Link, NavLink } from "react-router-dom";
+import AuthContext from "../Context/AuthContext";
 import { signOut } from "firebase/auth";
-import { toast } from "react-toastify";
 import { auth } from "../Firebase/Firebase.config";
+import { toast } from "react-toastify";
+import { PawPrint, LogOut } from "lucide-react";
 
 const Navbar = () => {
+  const { user, loading } = useContext(AuthContext);
 
-  const {user, setUser} = useContext(AuthContext);
-  console.log(user);
   const handleSignout = () => {
-      signOut(auth)
-        .then(() => {
-          toast.success("User signed out successfully");
-          setUser(null);
-        })
-        .catch((error) => {
-          toast.error("Error signing out: " + error.message);
-        });
-    };
-  
-  const linkClass =
-    "px-3 py-2 text-base font-normal text-white hover:text-yellow-400";
+    signOut(auth)
+      .then(() => toast.success("You've been signed out. See you soon!"))
+      .catch((error) => toast.error("Sign-out failed: " + error.message));
+  };
+
+  const navLinkClass =
+    "px-3 py-2 text-white hover:text-yellow-400 font-medium transition";
+
+  if (loading) return <div className="h-16 bg-gray-900"></div>;
 
   return (
-    <nav className="bg-gradient-to-r from-gray-900 to-gray-800 shadow-lg border-b border-gray-700">
+    <nav className="bg-gray-900 shadow-lg border-b border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
-            <a href="#" className="flex items-center space-x-2">
-              <Gem className="w-5 h-5 text-white" />
-              <span className="text-lg font-medium text-white">
-                Simple Brand
-              </span>
-            </a>
-          </div>
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2">
+            <PawPrint className="w-6 h-6 text-yellow-400" />
+            <span className="text-xl font-bold text-white">PetWinterCare</span>
+          </Link>
 
-          <div className="flex justify-center">
-            <div className="flex space-x-6">
-              <MyLink to="/" className={linkClass}>
-                Home
-              </MyLink>
-              <MyLink to="/about" className={linkClass}>
-                About
-              </MyLink>
-              <MyLink to="/profile" className={linkClass}>
-                Profile
-              </MyLink>
-            </div>
-          </div>
-
-
-          {
-            user ? <div className="text-center">
-          <h3 className="text-xl mb-4">
-            {user.email} <br />
-          </h3>
-          <h3 className="text-xl mb-4">
-            {user.displayName ? user.displayName : "No Name Available"} <br />
-          </h3>
-
-          {/* User Photo Section */}
-          <div className="text-center space-y-3 mb-4">
-            <img
-              src={
-                user?.photoURL ||
-                "https://www.pngarts.com/files/6/User-Avatar-in-Suit-PNG.png"
-              }
-              alt="User"
-              className="w-24 h-24 rounded-full mx-auto border border-gray-600"
-            />
-          </div>
-
-          <button
-            onClick={handleSignout}
-            className="w-full py-2 bg-yellow-500 text-black font-semibold rounded-md hover:bg-yellow-400 cursor-pointer"
-          >
-            Sign Out
-          </button>
-        </div> : (
-          <button className="flex items-center space-x-4">
-              <Link to={"/signin"}> </Link>
-              
-            
-              Sign In
-            </button>
-        )
-          }
-
-          <div className="flex items-center space-x-4">
-            
-            <NavLink
-              to="/signup"
-              className="px-4 py-2 bg-yellow-500 text-gray-900 rounded-lg hover:bg-yellow-400 transition-colors font-medium"
-            >
-              Sign Up
+          {/* Nav Links */}
+          <div className="hidden md:flex space-x-6">
+            <NavLink to="/" className={navLinkClass}>
+              Home
             </NavLink>
+            <NavLink to="/services" className={navLinkClass}>
+              Services
+            </NavLink>
+            {user && (
+              <NavLink to="/profile" className={navLinkClass}>
+                My Profile
+              </NavLink>
+            )}
+          </div>
+
+          {/* Right Side: Auth Area */}
+          <div className="flex items-center space-x-4">
+            {user ? (
+              <div className="flex items-center space-x-3">
+                {/* Avatar with Hover Tooltip */}
+                <div className="relative group">
+                  <img
+                    src={
+                      user.photoURL ||
+                      "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                    }
+                    alt="Avatar"
+                    className="w-10 h-10 rounded-full border-2 border-yellow-500 cursor-pointer hover:scale-105 transition"
+                  />
+                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 hidden group-hover:flex bg-gray-800 text-white text-xs rounded py-1 px-3 shadow-lg z-10 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    {user.displayName || user.email}
+                  </div>
+                </div>
+
+                {/* Logout Button */}
+                <button
+                  onClick={handleSignout}
+                  className="flex items-center space-x-1 px-4 py-2 bg-red-600 text-white text-sm rounded hover:bg-red-500 transition"
+                >
+                  <LogOut size={16} />
+                  <span>Logout</span>
+                </button>
+              </div>
+            ) : (
+              <div className="flex space-x-2">
+                <Link
+                  to="/signin"
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="px-4 py-2 border border-yellow-500 text-yellow-500 rounded hover:bg-yellow-500 hover:text-gray-900 transition"
+                >
+                  Register
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>

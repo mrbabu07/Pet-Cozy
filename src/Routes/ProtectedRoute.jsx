@@ -1,13 +1,15 @@
-import React from "react";
+// src/components/ProtectedRoute.jsx
 import { Navigate, useLocation } from "react-router-dom";
-import { auth } from "../Firebase/Firebase.config";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { useContext } from "react";
+import AuthContext from "../Context/AuthContext"; // ✅ Default import (recommended)
 
 const ProtectedRoute = ({ children }) => {
-  const [user, loading] = useAuthState(auth);
+  const { user, loading } = useContext(AuthContext);
   const location = useLocation();
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) {
+    return <div className="text-white text-center mt-10 text-xl">Loading...</div>;
+  }
 
   if (!user) {
     return <Navigate to="/signin" state={{ from: location }} replace />;

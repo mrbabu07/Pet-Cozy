@@ -1,0 +1,74 @@
+[
+  {
+    "serviceId": 1,
+    "serviceName": "Winter Coat Fitting for Dogs",
+    "providerName": "PawCare Studio",
+    "providerEmail": "info@pawcare.com",
+    "price": 25,
+    "rating": 4.9,
+    "slotsAvailable": 4,
+    "description": "Custom coat fitting and warm outfit options to keep your dog comfortable in the cold.",
+    "image": "https://i.postimg.cc/7Zk0qR2v/dog-winter-coat.jpg",
+    "category": "Clothing"
+  },
+  {
+    "serviceId": 2,
+    "serviceName": "Winter Grooming & Paw Treatment",
+    "providerName": "CozyPets Grooming",
+    "providerEmail": "hello@cozypets.com",
+    "price": 30,
+    "rating": 4.8,
+    "slotsAvailable": 3,
+    "description": "Professional grooming with moisturizing paw balm and winter-safe shampoo.",
+    "image": "https://i.postimg.cc/6QvqGc0T/pet-grooming-winter.jpg",
+    "category": "Grooming"
+  },
+  {
+    "serviceId": 3,
+    "serviceName": "Heated Pet Bed Rental",
+    "providerName": "WarmWhiskers Co.",
+    "providerEmail": "support@warmwhiskers.com",
+    "price": 20,
+    "rating": 4.7,
+    "slotsAvailable": 10,
+    "description": "Weekly rental of self-warming or electric-safe heated beds for cats and small dogs.",
+    "image": "https://i.postimg.cc/yYqDfJmT/heated-pet-bed.jpg",
+    "category": "Comfort"
+  },
+  {
+    "serviceId": 4,
+    "serviceName": "Indoor Winter Play Session",
+    "providerName": "Frosty Paws Daycare",
+    "providerEmail": "book@frostypaws.com",
+    "price": 35,
+    "rating": 4.9,
+    "slotsAvailable": 6,
+    "description": "Supervised indoor play in a climate-controlled environment to keep pets active during cold months.",
+    "image": "https://i.postimg.cc/CKvFqH0r/indoor-pet-play.jpg",
+    "category": "Activity"
+  },
+  {
+    "serviceId": 5,
+    "serviceName": "Winter Nutrition Consultation",
+    "providerName": "Healthy Tails Nutrition",
+    "providerEmail": "diet@healthytails.com",
+    "price": 40,
+    "rating": 4.6,
+    "slotsAvailable": 2,
+    "description": "Personalized winter diet plan to boost immunity and maintain energy in cold weather.",
+    "image": "https://i.postimg.cc/VLcFqR0d/pet-nutrition-winter.jpg",
+    "category": "Health"
+  },
+  {
+    "serviceId": 6,
+    "serviceName": "Pet-Safe Ice Melt Delivery",
+    "providerName": "SafePaw Supplies",
+    "providerEmail": "orders@safepaw.com",
+    "price": 18,
+    "rating": 4.5,
+    "slotsAvailable": 15,
+    "description": "Eco-friendly, pet-safe ice melt delivered to your door—non-toxic and gentle on paws.",
+    "image": "https://i.postimg.cc/8cJvqQqW/pet-safe-ice-melt.jpg",
+    "category": "Supplies"
+  }
+]
