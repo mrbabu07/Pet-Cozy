@@ -6,17 +6,15 @@ import About from "../Pages/About";
 import Profile from "../Pages/Profile";
 import Signin from "../Pages/Signin";
 import SignUp from "../Pages/SignUp";
-import ProtectedRoute from "../Routes/ProtectedRoute";
+import ProtectedRoute from "./ProtectedRoute";
+import ServiceDetails from "../Pages/ServiceDetails";
+import AllServices from "../Pages/AllServices";
+
+
 
 export const router = createBrowserRouter([
-  {
-    path: "/signin",
-    element: <Signin />,
-  },
-  {
-    path: "/signup",
-    element: <SignUp />,
-  },
+  { path: "/signin", element: <Signin /> },
+  { path: "/signup", element: <SignUp /> },
   {
     path: "/",
     element: <MainLayout />,
@@ -31,14 +29,23 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      {
+        path: "/services", 
+        element: <AllServices />,
+      },
+      
+      {
+        path: "/service/:id",
+        element: (
+          <ProtectedRoute>
+            <ServiceDetails />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
   {
     path: "*",
-    element: (
-      <div className="text-white p-10 text-center text-xl">
-        404 - Page Not Found
-      </div>
-    ),
+    element: <div className="text-white p-10 text-center">404 - Not Found</div>,
   },
 ]);

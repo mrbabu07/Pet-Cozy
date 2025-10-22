@@ -1,53 +1,187 @@
 // src/Pages/Homepage.jsx
 import React from "react";
-import { useContext } from "react";
-import AuthContext from "../Context/AuthContext"; // ✅ Use default import (recommended)
+import { Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination, Navigation, EffectFade } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import 'swiper/css/effect-fade';
+import winterServices from "../data/winterServices.json";
 
 const Homepage = () => {
-  const { user, loading } = useContext(AuthContext);
+  const heroImages = [
+    "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=1200&q=80",
+    "https://images.unsplash.com/photo-1515992854631-13de43baeba1?w=1200&q=80",
+    "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=1200&q=80",
+  ];
 
-  // Optional: Handle loading state gracefully
-  if (loading) {
-    return (
-      <div className="max-w-4xl mx-auto text-center py-10">
-        <p className="text-gray-400">Loading...</p>
-      </div>
-    );
-  }
+  const tips = [
+    "Keep walks short in freezing temperatures.",
+    "Use pet-safe ice melt to protect paws.",
+    "Provide extra bedding for warmth at night.",
+    "Never leave pets in cold cars or outdoors unattended.",
+  ];
+
+  const vets = [
+    {
+      name: "Dr. Sarah Lee",
+      specialty: "Canine Nutrition",
+      image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&q=80",
+    },
+    {
+      name: "Dr. James Patel",
+      specialty: "Feline Health",
+      image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&q=80",
+    },
+    {
+      name: "Dr. Mia Rodriguez",
+      specialty: "Senior Pet Care",
+      image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&q=80",
+    },
+  ];
+
+  const topServices = winterServices.slice(0, 3);
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="bg-gray-800 rounded-2xl p-8 mb-8 border border-gray-700">
-        <h1 className="text-3xl font-bold text-white mb-2">
-          Welcome to Simple Brand
-        </h1>
-        <p className="text-gray-300">
-          {user
-            ? `Hello, ${
-                user.displayName || user.email || "User"
-              }! You're all set.`
-            : "Sign in or sign up to get started."}
-        </p>
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      {/* Hero Swiper */}
+      <div className="relative mb-12 rounded-2xl overflow-hidden shadow-2xl">
+        <Swiper
+          modules={[Autoplay, Pagination, Navigation]}
+          spaceBetween={0}
+          slidesPerView={1}
+          autoplay={{
+            delay: 3500,
+            disableOnInteraction: false,
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          navigation={true}
+          loop={true}
+          className="h-96 rounded-2xl"
+        >
+          {heroImages.map((img, i) => (
+            <SwiperSlide key={i}>
+              <div className="relative h-96 w-full">
+                <img
+                  src={img}
+                  alt={`Hero ${i + 1}`}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    console.log('Image load error:', img);
+                    e.target.src = 'https://via.placeholder.com/1200x400?text=Pet+Care';
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-center justify-center">
+                  <h1 className="text-white text-4xl md:text-5xl font-bold text-center px-4 drop-shadow-lg">
+                    Keep Your Pets Cozy This Winter
+                  </h1>
+                </div>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
 
-      {/* ✅ Extra Section: Quick Actions */}
-      <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
-        <h2 className="text-xl font-semibold text-white mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
-            <h3 className="font-medium text-yellow-400">View Profile</h3>
-            <p className="text-gray-400 text-sm mt-1">
-              Manage your personal info and photo
-            </p>
-          </div>
-          <div className="bg-gray-900 p-4 rounded-lg border border-gray-700">
-            <h3 className="font-medium text-yellow-400">Security</h3>
-            <p className="text-gray-400 text-sm mt-1">
-              Change password or enable 2FA
-            </p>
-          </div>
+      {/* Popular Winter Care Services */}
+      <section className="mb-16">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-3xl font-bold text-white">
+            Popular Winter Care Services
+          </h2>
+          <Link
+            to="/services"
+            className="text-blue-400 hover:text-blue-300 font-medium"
+          >
+            See All
+          </Link>
         </div>
-      </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {topServices.map((service) => (
+            <div
+              key={service.serviceId}
+              className="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 hover:transform hover:scale-105"
+            >
+              <img
+                src={service.image}
+                alt={service.serviceName}
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-4">
+                <div className="flex justify-between items-start">
+                  <h3 className="text-xl font-semibold text-white">
+                    {service.serviceName}
+                  </h3>
+                  <span className="bg-yellow-500 text-gray-900 px-2 py-1 rounded text-sm font-bold">
+                    ${service.price}
+                  </span>
+                </div>
+                <div className="flex items-center mt-2">
+                  <span className="text-yellow-400">★</span>
+                  <span className="text-gray-300 ml-1">{service.rating}</span>
+                </div>
+                <Link
+                  to={`/service/${service.serviceId}`}
+                  className="mt-4 block w-full text-center py-2 bg-blue-600 text-white rounded hover:bg-blue-500 transition-colors"
+                >
+                  View Details
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Winter Care Tips */}
+      <section className="mb-16 bg-gray-800 p-6 rounded-2xl border border-gray-700">
+        <h2 className="text-2xl font-bold text-white mb-4">
+          Winter Care Tips for Pets
+        </h2>
+        <ul className="space-y-2">
+          {tips.map((tip, i) => (
+            <li key={i} className="flex items-start">
+              <span className="text-yellow-400 mr-2">•</span>
+              <span className="text-gray-300">{tip}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Meet Our Experts */}
+      <section>
+        <h2 className="text-2xl font-bold text-white mb-6">
+          Meet Our Expert Vets
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {vets.map((vet, i) => (
+            <div
+              key={i}
+              className="bg-gray-800 p-4 rounded-xl border border-gray-700 text-center hover:border-blue-500 transition-all duration-300"
+            >
+              <img
+                src={vet.image}
+                alt={vet.name}
+                className="w-24 h-24 rounded-full mx-auto mb-3 object-cover"
+              />
+              <h3 className="text-lg font-semibold text-white">{vet.name}</h3>
+              <p className="text-gray-400 text-sm">{vet.specialty}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <style jsx>{`
+        .swiper-button-next,
+        .swiper-button-prev {
+          color: white;
+        }
+        .swiper-pagination-bullet {
+          background: white;
+        }
+      `}</style>
     </div>
   );
 };

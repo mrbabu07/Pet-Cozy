@@ -37,7 +37,7 @@ const Navbar = () => {
               Home
             </NavLink>
             <NavLink to="/services" className={navLinkClass}>
-              Services
+              All Services
             </NavLink>
             {user && (
               <NavLink to="/profile" className={navLinkClass}>
