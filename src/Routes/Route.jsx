@@ -10,8 +10,6 @@ import ProtectedRoute from "./ProtectedRoute";
 import ServiceDetails from "../Pages/ServiceDetails";
 import AllServices from "../Pages/AllServices";
 
-
-
 export const router = createBrowserRouter([
   { path: "/signin", element: <Signin /> },
   { path: "/signup", element: <SignUp /> },
@@ -19,8 +17,14 @@ export const router = createBrowserRouter([
     path: "/",
     element: <MainLayout />,
     children: [
-      { index: true, element: <Homepage /> },
-      { path: "/about", element: <About /> },
+      { 
+        index: true, 
+        element: <Homepage />
+       },
+
+      { 
+        path: "/about", 
+        element: <About /> },
       {
         path: "/profile",
         element: (
@@ -30,10 +34,10 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/services", 
+        path: "/services",
         element: <AllServices />,
       },
-      
+
       {
         path: "/service/:id",
         element: (
@@ -46,6 +50,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <div className="text-white p-10 text-center">404 - Not Found</div>,
+    element: <div className="text-red p-10 text-center">404 - Not Found</div>,
   },
 ]);

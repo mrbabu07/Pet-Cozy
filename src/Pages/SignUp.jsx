@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { auth } from "../Firebase/Firebase.config";
 import { FaEye } from "react-icons/fa";
 import { IoEyeOff } from "react-icons/io5";

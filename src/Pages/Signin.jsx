@@ -1,4 +1,3 @@
-// src/Pages/Signin.jsx
 import {
   GoogleAuthProvider,
   sendPasswordResetEmail,
@@ -9,7 +8,7 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { IoEyeOff } from "react-icons/io5";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";  
 import { auth } from "../Firebase/Firebase.config";
 
 const googleProvider = new GoogleAuthProvider();
@@ -36,9 +35,11 @@ const Signin = () => {
         navigate("/");
       })
       .catch((error) => {
-        toast.error(error.message.includes("wrong-password") 
-          ? "Incorrect password. Please try again." 
-          : "Could not sign you in. Please check your credentials.");
+        toast.error(
+          error.message.includes("wrong-password")
+            ? "Incorrect password. Please try again."
+            : "Could not sign you in. Please check your credentials."
+        );
       });
   };
 
@@ -55,7 +56,7 @@ const Signin = () => {
       .then(() => {
         toast.success("Password reset link has been sent to your email.");
       })
-      .catch((error) => {
+      .catch(() => {
         toast.error("Couldn't send reset email. Please try again.");
       });
   };

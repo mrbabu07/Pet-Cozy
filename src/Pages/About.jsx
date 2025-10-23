@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-    // src/Pages/About.jsx
+    
 const About = () => {
   return (
     <div className="text-white">

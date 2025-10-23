@@ -14,8 +14,8 @@ const AuthProvider = ({ children }) => {
       setLoading(false);
     });
 
-    return () => unsubscribe(); // Cleanup on unmount
-  }, []); // ✅ Only ONE useEffect
+    return () => unsubscribe(); 
+  }, []); 
 
   return (
     <AuthContext.Provider value={{ user, loading }}>

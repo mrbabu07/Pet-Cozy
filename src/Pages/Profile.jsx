@@ -3,8 +3,7 @@ import React, { useState, useContext } from "react";
 import AuthContext from "../Context/AuthContext";
 import { Navigate } from "react-router";
 import { updateProfile } from "firebase/auth";
-import { toast } from "react-toastify";
-
+import toast from "react-hot-toast";
 const Profile = () => {
   const { user, loading } = useContext(AuthContext);
   const [isEditing, setIsEditing] = useState(false);

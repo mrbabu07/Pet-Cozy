@@ -3,7 +3,7 @@ import React, { useState, useContext } from "react";
 import { useParams, Navigate } from "react-router";
 import AuthContext from "../Context/AuthContext";
 import winterServices from "../data/winterServices.json";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 const ServiceDetails = () => {
   const { user, loading } = useContext(AuthContext);
