@@ -1,4 +1,4 @@
-// src/Pages/SignUp.jsx
+
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";

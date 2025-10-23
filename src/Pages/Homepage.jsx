@@ -1,4 +1,4 @@
-// src/Pages/Homepage.jsx
+
 import React from "react";
 import { Link } from "react-router";
 import { Swiper, SwiperSlide } from 'swiper/react';

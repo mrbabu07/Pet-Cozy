@@ -1,4 +1,4 @@
-// src/Routes/Route.jsx
+
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layout/MainLayout";
 import Homepage from "../Pages/Homepage";
