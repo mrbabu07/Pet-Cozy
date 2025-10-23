@@ -41,7 +41,7 @@ const Homepage = () => {
     },
   ];
 
-  const topServices = winterServices.slice(0, 3);
+  const topServices = winterServices.slice(0, 6);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
