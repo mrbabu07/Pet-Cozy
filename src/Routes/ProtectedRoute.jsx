@@ -12,7 +12,7 @@ const ProtectedRoute = ({ children }) => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-900">
+      <div className="flex justify-center items-center min-h-screen bg-gray-800">
         <l-miyagi
           size="35"
           stroke="3.5"

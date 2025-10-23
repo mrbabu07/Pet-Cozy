@@ -1,4 +1,4 @@
-// src/Pages/ServiceDetails.jsx
+
 import React, { useState, useContext } from "react";
 import { useParams, Navigate } from "react-router";
 import AuthContext from "../Context/AuthContext";

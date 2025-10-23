@@ -27,8 +27,8 @@ const SignUp = () => {
       .then((res) => {
         const user = res.user;
         return updateProfile(user, {
-          displayName: name || null,
-          photoURL: photoUrl || null,
+          displayName: name || "",
+          photoURL: photoUrl || "",
         });
       })
       .then(() => {

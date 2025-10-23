@@ -43,7 +43,7 @@ const Signin = () => {
       });
   };
 
-  // 🔹 Handle Password Reset
+  //  Handle Password Reset
   const handleForgetPassword = () => {
     const email = emailRef.current?.value;
 
@@ -61,7 +61,7 @@ const Signin = () => {
       });
   };
 
-  // 🔹 Handle Google Sign-In
+  //  Handle Google Sign-In
   const handleGoogleSignIn = () => {
     signInWithPopup(auth, googleProvider)
       .then(() => {
