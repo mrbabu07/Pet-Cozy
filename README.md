@@ -1,16 +1,44 @@
-# React + Vite
+🐾 Winter Pet Care Platform
+A comprehensive web application for booking winter pet care services including grooming, nutrition consultation, heated bedding, and more.
+🌐 Live URL
+Live Demo
+✨ Key Features
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Hero Slider: Auto-sliding image carousel with winter pet care highlights
+Service Browsing: View and filter winter care services by category
+Service Details: Detailed information with booking functionality
+Expert Vets: Meet our veterinary professionals
+Winter Tips: Essential cold weather pet care advice
+Responsive Design: Optimized for mobile, tablet, and desktop
+Dark Theme: Modern UI with smooth animations
+Loading States: Beautiful loading indicators with Ldris
 
-Currently, two official plugins are available:
+🛠️ NPM Packages Used
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+React Router DOM - Navigation and routing
+Swiper - Hero image slider with auto-play
+React Hot Toast - Toast notifications for user feedback
+Lucide React - Beautiful icon library
+Ldris - Loading indicators and spinners
+React Spring - Smooth animations and transitions
+DaisyUI - Tailwind CSS component library
+Tailwind CSS - Utility-first styling
+And so on....
 
-## React Compiler
+🚀 Installation
+bash# Clone repository
+git clone https://github.com/mrbabu07/Pet-Cozy.git
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# Install dependencies
+npm install
 
-## Expanding the ESLint configuration
+# Start development server
+npm start
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# Build for production
+npm run build
+👨‍💻 Author
+mrbabu07
+GitHub: @mrbabu07
+
+Made with ❤️ for pet lovers
