@@ -61,10 +61,10 @@ const Navbar = () => {
                 </div>
                 <button
                   onClick={handleSignout}
-                  className="flex items-center space-x-1 px-4 py-2 bg-red-600 text-white text-sm rounded hover:bg-red-500 transition"
+                  className="flex items-center space-x-1 px-4 py-2 bg-yellow-600 text-white text-sm rounded hover:bg-red-500 transition"
                 >
                   <LogOut size={16} />
-                  <span>Logout</span>
+                  <span className="cursor-pointer">Logout</span>
                 </button>
               </div>
             ) : (

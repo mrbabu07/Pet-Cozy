@@ -9,6 +9,7 @@ import SignUp from "../Pages/SignUp";
 import ProtectedRoute from "./ProtectedRoute";
 import ServiceDetails from "../Pages/ServiceDetails";
 import AllServices from "../Pages/AllServices";
+import NotFound from "../Pages/NotFound";
 
 export const router = createBrowserRouter([
   { path: "/signin", element: <Signin /> },
@@ -50,6 +51,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <div className="text-red p-10 text-center">404 - Not Found</div>,
+    element: <NotFound/>
   },
 ]);
