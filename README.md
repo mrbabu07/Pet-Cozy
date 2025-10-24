@@ -1,7 +1,7 @@
 🐾 Winter Pet Care Platform
 A comprehensive web application for booking winter pet care services including grooming, nutrition consultation, heated bedding, and more.
 🌐 Live URL
-Live Demo
+Live Demo: petcozy-a9-project.netlify.app
 ✨ Key Features
 
 Hero Slider: Auto-sliding image carousel with winter pet care highlights
