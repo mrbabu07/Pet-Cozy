@@ -1,4 +1,3 @@
-
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layout/MainLayout";
 import Homepage from "../Pages/Homepage";
@@ -10,6 +9,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import ServiceDetails from "../Pages/ServiceDetails";
 import AllServices from "../Pages/AllServices";
 import NotFound from "../Pages/NotFound";
+import ForgotPassword from "../Pages/ForgotPassword";
 
 export const router = createBrowserRouter([
   { path: "/signin", element: <Signin /> },
@@ -18,14 +18,15 @@ export const router = createBrowserRouter([
     path: "/",
     element: <MainLayout />,
     children: [
-      { 
-        index: true, 
-        element: <Homepage />
-       },
+      {
+        index: true,
+        element: <Homepage />,
+      },
 
-      { 
-        path: "/about", 
-        element: <About /> },
+      {
+        path: "/about",
+        element: <About />,
+      },
       {
         path: "/profile",
         element: (
@@ -37,6 +38,10 @@ export const router = createBrowserRouter([
       {
         path: "/services",
         element: <AllServices />,
+      },
+      {
+        path: "/forgot-password",
+        element: <ForgotPassword />,
       },
 
       {
@@ -51,6 +56,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <NotFound/>
+    element: <NotFound />,
   },
 ]);

@@ -8,7 +8,7 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { IoEyeOff } from "react-icons/io5";
-import toast from "react-hot-toast";  
+import toast from "react-hot-toast";
 import { auth } from "../Firebase/Firebase.config";
 
 const googleProvider = new GoogleAuthProvider();
@@ -44,22 +44,22 @@ const Signin = () => {
   };
 
   //  Handle Password Reset
-  const handleForgetPassword = () => {
-    const email = emailRef.current?.value;
+  // const handleForgetPassword = () => {
+  //   const email = emailRef.current?.value;
 
-    if (!email) {
-      toast.error("Please enter your email above first.");
-      return;
-    }
+  //   if (!email) {
+  //     toast.error("Please enter your email above first.");
+  //     return;
+  //   }
 
-    sendPasswordResetEmail(auth, email)
-      .then(() => {
-        toast.success("Password reset link has been sent to your email.");
-      })
-      .catch(() => {
-        toast.error("Couldn't send reset email. Please try again.");
-      });
-  };
+  //   sendPasswordResetEmail(auth, email)
+  //     .then(() => {
+  //       toast.success("Password reset link has been sent to your email.");
+  //     })
+  //     .catch(() => {
+  //       toast.error("Couldn't send reset email. Please try again.");
+  //     });
+  // };
 
   //  Handle Google Sign-In
   const handleGoogleSignIn = () => {
@@ -112,7 +112,9 @@ const Signin = () => {
         {/* Forget Password Button */}
         <button
           type="button"
-          onClick={handleForgetPassword}
+          onClick={() =>
+            navigate(`/forgot-password?email=${emailRef.current?.value || ""}`)
+          }
           className="text-sm text-yellow-400 hover:underline mb-4"
         >
           Forgot Password?
