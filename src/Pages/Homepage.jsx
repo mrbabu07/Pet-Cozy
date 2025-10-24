@@ -1,15 +1,23 @@
-import React from "react";
-import { Link } from "react-router";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation, EffectFade } from "swiper/modules";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import "swiper/css/effect-fade";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import winterServices from "../data/winterServices.json";
 import { Cat, Snowflake } from "lucide-react";
 
 const Homepage = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+    });
+  }, []);
+
   const heroImages = [
     "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=1200&q=80",
     "https://images.unsplash.com/photo-1515992854631-13de43baeba1?w=1200&q=80",
@@ -49,18 +57,16 @@ const Homepage = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Hero Swiper */}
-      <div className="relative mb-12 rounded-2xl overflow-hidden shadow-2xl">
+      <div
+        className="relative mb-12 rounded-2xl overflow-hidden shadow-2xl"
+        data-aos="zoom-in"
+      >
         <Swiper
           modules={[Autoplay, Pagination, Navigation]}
           spaceBetween={0}
           slidesPerView={1}
-          autoplay={{
-            delay: 3500,
-            disableOnInteraction: false,
-          }}
-          pagination={{
-            clickable: true,
-          }}
+          autoplay={{ delay: 3500, disableOnInteraction: false }}
+          pagination={{ clickable: true }}
           navigation={true}
           loop={true}
           className="h-96 rounded-2xl"
@@ -72,11 +78,6 @@ const Homepage = () => {
                   src={img}
                   alt={`Hero ${i + 1}`}
                   className="w-full h-full object-cover"
-                  onError={(e) => {
-                    console.log("Image load error:", img);
-                    e.target.src =
-                      "https://via.placeholder.com/1200x400?text=Pet+Care";
-                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to from-black/60 to-transparent flex items-center justify-center">
                   <h1 className="text-white text-4xl md:text-5xl font-bold text-center px-4 drop-shadow-lg">
@@ -89,25 +90,22 @@ const Homepage = () => {
         </Swiper>
       </div>
 
-      {/* Popular Winter Care Services */}
-      <section className="mb-16">
+      {/* Popular Services */}
+      <section className="mb-16" data-aos="fade-up">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-3xl font-bold text-white">
             Popular Winter Care Services
           </h2>
-          <Link
-            to="/services"
-            className="text-blue-400 hover:text-blue-300 font-medium"
-          >
+          <Link to="/services" className="text-blue-400 hover:text-blue-300">
             See All
           </Link>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {topServices.map((service) => (
             <div
               key={service.serviceId}
-              className="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 hover:transform hover:scale-105"
+              data-aos="zoom-in-up"
+              className="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 hover:scale-105"
             >
               <img
                 src={service.image}
@@ -115,23 +113,20 @@ const Homepage = () => {
                 className="w-full h-48 object-cover"
               />
               <div className="p-4">
-                <div className="flex justify-between items-start">
-                  <h3 className="text-xl font-semibold text-white">
-                    {service.serviceName}
-                  </h3>
-                </div>
-                <div className="flex items-center mt-2 justify-between">
-                  <span className="bg-yellow-500 text-gray-900 px-2 py-1 rounded text-sm font-bold">
+                <h3 className="text-xl font-semibold text-white">
+                  {service.serviceName}
+                </h3>
+                <div className="flex items-center justify-between mt-2">
+                  <span className="bg-yellow-500 text-gray-900 px-2 py-1 rounded">
                     ${service.price}
                   </span>
-                  <div>
-                    <span className="text-yellow-400">★</span>
-                    <span className="text-gray-300 ml-1">{service.rating}</span>
+                  <div className="text-gray-300">
+                    ★ {service.rating}
                   </div>
                 </div>
                 <Link
                   to={`/service/${service.serviceId}`}
-                  className="mt-4 block w-full text-center py-2 bg-blue-600 text-white rounded hover:bg-blue-500 transition-colors"
+                  className="mt-4 block w-full text-center py-2 bg-blue-600 text-white rounded hover:bg-blue-500"
                 >
                   View Details
                 </Link>
@@ -142,7 +137,10 @@ const Homepage = () => {
       </section>
 
       {/* Winter Care Tips */}
-      <div className="mb-16 bg-gray-800 p-6 rounded-xl border border-gray-700">
+      <div
+        className="mb-16 bg-gray-800 p-6 rounded-xl border border-gray-700"
+        data-aos="fade-right"
+      >
         <div className="flex items-center gap-2 mb-4">
           <Snowflake className="w-6 h-6 text-blue-400" />
           <h2 className="text-2xl font-bold text-white">
@@ -152,22 +150,25 @@ const Homepage = () => {
         <div className="grid md:grid-cols-2 gap-6">
           <ul className="space-y-3">
             {tips.map((tip, i) => (
-              <li key={i} className="flex items-start gap-2">
-                <span className="text-blue-400 mt-1">•</span>
-                <span className="text-gray-300">{tip}</span>
+              <li key={i} className="text-gray-300">
+                • {tip}
               </li>
             ))}
           </ul>
           <div className="flex items-center justify-center">
-            <div className="bg-gray-700/50 rounded-lg p-8 text-center w-full">
+            <div
+              className="bg-gray-700/50 rounded-lg p-8 text-center w-full"
+              data-aos="zoom-in"
+            >
               <Cat className="w-24 h-24 text-gray-500 mx-auto mb-3" />
               <p className="text-gray-400 text-sm">Winter pet care</p>
             </div>
           </div>
         </div>
       </div>
+
       {/* Meet Our Experts */}
-      <section>
+      <section data-aos="fade-up">
         <h2 className="text-2xl font-bold text-white mb-6">
           Meet Our Expert Vets
         </h2>
@@ -175,6 +176,7 @@ const Homepage = () => {
           {vets.map((vet, i) => (
             <div
               key={i}
+              data-aos="flip-left"
               className="bg-gray-800 p-4 rounded-xl border border-gray-700 text-center hover:border-blue-500 transition-all duration-300"
             >
               <img
@@ -188,16 +190,6 @@ const Homepage = () => {
           ))}
         </div>
       </section>
-
-      <style jsx>{`
-        .swiper-button-next,
-        .swiper-button-prev {
-          color: white;
-        }
-        .swiper-pagination-bullet {
-          background: white;
-        }
-      `}</style>
     </div>
   );
 };

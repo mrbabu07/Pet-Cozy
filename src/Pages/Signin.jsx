@@ -1,6 +1,6 @@
 import {
   GoogleAuthProvider,
-  sendPasswordResetEmail,
+  
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
